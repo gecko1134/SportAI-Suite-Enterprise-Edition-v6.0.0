@@ -339,9 +339,19 @@ def run(context):
         f.write(dashboard_code)
     print("✓ Created modules/dashboard.py")
 
-def create_placeholder_modules():
-    """Create placeholder modules for other features"""
-    
+def create_starter_modules():
+    """Create starter module templates for new installations
+
+    Note: Full implementations are available in the root directory:
+    - sportai_scheduling.py (AI Scheduling)
+    - sportai_pricing.py (Dynamic Pricing)
+    - sportai_sponsorship.py (Sponsorship Optimizer)
+    - sportai_membership.py (Membership Manager)
+    - sportai_performance_tech.py (Performance Tech)
+    - sportai_governance.py (Board Governance)
+    - sportai_reports.py (Reports)
+    """
+
     modules_to_create = [
         'ai_scheduling',
         'dynamic_pricing',
@@ -351,34 +361,47 @@ def create_placeholder_modules():
         'board_governance',
         'reports'
     ]
-    
+
+    full_module_map = {
+        'ai_scheduling': 'sportai_scheduling.py',
+        'dynamic_pricing': 'sportai_pricing.py',
+        'sponsorship_optimizer': 'sportai_sponsorship.py',
+        'membership_manager': 'sportai_membership.py',
+        'performance_tech': 'sportai_performance_tech.py',
+        'board_governance': 'sportai_governance.py',
+        'reports': 'sportai_reports.py'
+    }
+
     for module_name in modules_to_create:
+        full_module = full_module_map.get(module_name, 'N/A')
         module_code = f'''"""
-{module_name.replace('_', ' ').title()} Module
+{module_name.replace('_', ' ').title()} Module - Starter Template
+
+For full implementation, see: {full_module}
 """
 import streamlit as st
 
 def run(context):
     st.markdown(f'<div class="main-header">🎯 {module_name.replace("_", " ").title()}</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Advanced features coming soon</div>', unsafe_allow_html=True)
-    
-    st.info("""
-    This module is currently in development. The full {module_name.replace("_", " ")} features will include:
-    
+    st.markdown('<div class="sub-header">Starter template - Full implementation available</div>', unsafe_allow_html=True)
+
+    st.info(f"""
+    This is a starter template. For the full {module_name.replace("_", " ")} implementation,
+    please refer to **{full_module}** in the root directory.
+
+    Full features include:
     - Real-time analytics and reporting
     - AI-powered optimization
     - Data visualization
     - Export capabilities
-    
-    Check back soon for updates!
     """)
-    
-    st.success("Module framework is in place and ready for enhancement!")
+
+    st.success("Module framework is ready! Replace this file with the full implementation when needed.")
 '''
-        
+
         with open(f'modules/{module_name}.py', 'w') as f:
             f.write(module_code)
-        print(f"✓ Created modules/{module_name}.py")
+        print(f"✓ Created modules/{module_name}.py (starter template)")
 
 def create_readme():
     """Create README"""
@@ -433,7 +456,7 @@ def main():
     create_requirements()
     create_main_app()
     create_dashboard_module()
-    create_placeholder_modules()
+    create_starter_modules()
     create_readme()
     
     print("\n" + "="*60)

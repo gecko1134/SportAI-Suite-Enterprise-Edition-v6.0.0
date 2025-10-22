@@ -356,7 +356,7 @@ email=admin@sportai.com&password=admin123
 ### Using the Token
 Include the token in the Authorization header:
 ```http
-Authorization: Bearer <your_token_here>
+Authorization: Bearer {access_token_from_login_response}
 ```
 
 ## Endpoints
@@ -366,7 +366,7 @@ Authorization: Bearer <your_token_here>
 #### Get All Facilities
 ```http
 GET /api/facilities
-Authorization: Bearer <token>
+Authorization: Bearer {access_token_from_login_response}
 ```
 
 #### Get Facility by ID

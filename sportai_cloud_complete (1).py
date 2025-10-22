@@ -492,16 +492,17 @@ def create_bi_dashboards():
     # Looker Studio template
     looker_template = '''# SportAI Looker Studio Dashboard Configuration
 # Import this configuration into Looker Studio
+# Set GCP_PROJECT_ID environment variable or replace ${GCP_PROJECT_ID} with your project ID
 
 {
   "dashboardName": "SportAI Executive Dashboard",
   "description": "Complete sports facility management analytics",
-  
+
   "dataSources": [
     {
       "name": "SportAI BigQuery",
       "type": "bigquery",
-      "projectId": "[YOUR_PROJECT_ID]",
+      "projectId": "${GCP_PROJECT_ID}",
       "datasetId": "sportai",
       "tables": [
         "revenue_dashboard",

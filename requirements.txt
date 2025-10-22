@@ -1,0 +1,35 @@
+# SportAI Suite Enterprise Edition v6.0.0
+# Core Dependencies
+
+# Web Framework
+streamlit>=1.28.0
+
+# Data Processing
+pandas>=2.1.1
+numpy>=1.24.0
+
+# Visualization
+plotly>=5.17.0
+
+# API & Authentication
+requests>=2.31.0
+PyJWT>=2.8.0
+
+# Date/Time Utilities
+python-dateutil>=2.8.2
+
+# Database (optional - using SQLite by default)
+# psycopg2-binary>=2.9.9  # Uncomment for PostgreSQL support
+
+# Cloud Integration (optional)
+# google-cloud-bigquery>=3.11.0  # Uncomment for BigQuery support
+# google-cloud-storage>=2.10.0   # Uncomment for GCS support
+
+# Email (optional)
+# sendgrid>=6.10.0  # Uncomment for SendGrid support
+
+# Payment Processing (optional)
+# stripe>=6.0.0  # Uncomment for Stripe support
+
+# Additional utilities
+python-dotenv>=1.0.0

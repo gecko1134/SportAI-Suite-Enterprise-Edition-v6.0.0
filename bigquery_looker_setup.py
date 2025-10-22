@@ -528,9 +528,13 @@ def create_looker_templates():
     try:
         with open("bigquery_config.json", "r") as f:
             config = json.load(f)
-    except:
-        print("⚠️ Configuration file not found - using default values")
-        config = {"project_id": "YOUR_PROJECT_ID", "dataset_id": "sportai"}
+    except FileNotFoundError:
+        print("⚠️ Configuration file not found - using environment variables")
+        import os
+        config = {
+            "project_id": os.getenv("GCP_PROJECT_ID", "sportai-production"),
+            "dataset_id": os.getenv("BIGQUERY_DATASET_ID", "sportai")
+        }
     
     project_id = config["project_id"]
     dataset_id = config["dataset_id"]

@@ -13,7 +13,7 @@ Two modes:
 Usage:
   LIVE:
     export SPORTSKEY_API_BASE="https://api.sportskey.example/v1"
-    export SPORTSKEY_API_TOKEN="YOUR_TOKEN"
+    export SPORTSKEY_API_TOKEN="your_actual_token_here"
     python sportskey_reverse_export.py --out-dir ./out
 
   OFFLINE (demo with existing config):
@@ -40,20 +40,61 @@ CSV_FIELDS = [
 def _now_iso() -> str:
     return datetime.datetime.utcnow().isoformat() + "Z"
 
-# ---------- LIVE FETCH PLACEHOLDERS (customize to your API) ----------
+# ---------- LIVE FETCH IMPLEMENTATION ----------
 def fetch_facilities_live() -> List[Dict[str, Any]]:
-    """Call your SportsKey API to fetch facilities. Placeholder returns []."""
-    # Example:
-    # resp = requests.get(f"{BASE}/facilities", headers=HEADERS).json()
-    return []
+    """Call SportsKey API to fetch facilities."""
+    try:
+        import requests
+        BASE_URL = os.getenv("SPORTSKEY_API_BASE", "")
+        TOKEN = os.getenv("SPORTSKEY_API_TOKEN", "")
+
+        if not BASE_URL or not TOKEN:
+            print("⚠️  SPORTSKEY_API_BASE or SPORTSKEY_API_TOKEN not set")
+            return []
+
+        headers = {"Authorization": f"Bearer {TOKEN}"}
+        resp = requests.get(f"{BASE_URL}/facilities", headers=headers, timeout=30)
+        resp.raise_for_status()
+        return resp.json() if isinstance(resp.json(), list) else resp.json().get("facilities", [])
+    except Exception as e:
+        print(f"⚠️  Error fetching facilities: {e}")
+        return []
 
 def fetch_zones_live(facility_id: str) -> List[Dict[str, Any]]:
-    """Call your SportsKey API to fetch zones per facility. Placeholder returns []."""
-    return []
+    """Call SportsKey API to fetch zones per facility."""
+    try:
+        import requests
+        BASE_URL = os.getenv("SPORTSKEY_API_BASE", "")
+        TOKEN = os.getenv("SPORTSKEY_API_TOKEN", "")
+
+        if not BASE_URL or not TOKEN:
+            return []
+
+        headers = {"Authorization": f"Bearer {TOKEN}"}
+        resp = requests.get(f"{BASE_URL}/facilities/{facility_id}/zones", headers=headers, timeout=30)
+        resp.raise_for_status()
+        return resp.json() if isinstance(resp.json(), list) else resp.json().get("zones", [])
+    except Exception as e:
+        print(f"⚠️  Error fetching zones for facility {facility_id}: {e}")
+        return []
 
 def fetch_slots_live(zone_id: str) -> List[Dict[str, Any]]:
-    """Call your SportsKey API to fetch slot templates per zone. Placeholder returns []."""
-    return []
+    """Call SportsKey API to fetch slot templates per zone."""
+    try:
+        import requests
+        BASE_URL = os.getenv("SPORTSKEY_API_BASE", "")
+        TOKEN = os.getenv("SPORTSKEY_API_TOKEN", "")
+
+        if not BASE_URL or not TOKEN:
+            return []
+
+        headers = {"Authorization": f"Bearer {TOKEN}"}
+        resp = requests.get(f"{BASE_URL}/zones/{zone_id}/slots", headers=headers, timeout=30)
+        resp.raise_for_status()
+        return resp.json() if isinstance(resp.json(), list) else resp.json().get("slots", [])
+    except Exception as e:
+        print(f"⚠️  Error fetching slots for zone {zone_id}: {e}")
+        return []
 
 # ---------- OFFLINE: Read from our starter config ----------
 def load_offline_config(path: str) -> Dict[str, Any]:

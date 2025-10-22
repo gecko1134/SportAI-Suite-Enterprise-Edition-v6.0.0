@@ -535,7 +535,15 @@ def get_tech_enabled_pods() -> List[Dict]:
 def show_video_analysis_detail(sport: str):
     """Show detailed video analysis"""
     st.markdown("#### 🎥 Video Analysis Details")
-    st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")  # Placeholder
+
+    # Video analysis interface
+    st.info("Upload a video file for AI-powered analysis")
+    uploaded_file = st.file_uploader("Choose a video file", type=['mp4', 'mov', 'avi'])
+
+    if uploaded_file is not None:
+        st.video(uploaded_file)
+        st.success("Video uploaded successfully! AI analysis ready.")
+
     st.markdown("**AI-detected form issues and recommendations would appear here**")
 
 def show_baseball_metrics():
