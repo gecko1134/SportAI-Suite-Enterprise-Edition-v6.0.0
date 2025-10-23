@@ -1,0 +1,54 @@
+{
+  "pricing_bands": {
+    "default": {
+      "min_multiplier": 0.85,
+      "max_multiplier": 1.15
+    },
+    "youth_nonprofit": {
+      "min_multiplier": 0.65,
+      "max_multiplier": 0.95
+    },
+    "tournament_mode": {
+      "min_multiplier": 1.0,
+      "max_multiplier": 1.2
+    }
+  },
+  "protected_classes": {
+    "youth": {
+      "priority_hours": [
+        "15:00-21:00"
+      ],
+      "max_dynamic_change_percent": 5
+    },
+    "nonprofit": {
+      "priority_hours": [
+        "15:00-21:00"
+      ],
+      "max_dynamic_change_percent": 5
+    }
+  },
+  "notice_windows": {
+    "schedule_change_hours": 24,
+    "price_change_hours": 48
+  },
+  "staffing": {
+    "baseline_per_zone": 1,
+    "increase_threshold": 0.8,
+    "decrease_threshold": 0.3,
+    "max_delta_per_hour": 1
+  },
+  "inventory": {
+    "max_overflow_slots_per_hour": 1,
+    "allow_split_layouts": true
+  },
+  "global": {
+    "max_total_changes_per_day": 20,
+    "change_types_priority": [
+      "cleaning_window",
+      "open_overflow",
+      "staff_increase",
+      "staff_reduce"
+    ]
+  },
+  "active_mode": "Normal"
+}
