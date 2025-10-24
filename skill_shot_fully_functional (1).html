@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Shot Academy - Fully Functional Booking System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 15px 30px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .mode-switcher {
+            display: flex;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
+            border-radius: 25px;
+        }
+
+        .mode-btn {
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+
+        .event-banner {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            padding: 10px;
+            text-align: center;
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .event-banner.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        .facility-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .stat-change {
+            font-size: 0.75em;
+            margin-top: 5px;
+        }
+
+        .positive { color: #22c55e; }
+        .negative { color: #ef4444; }
+
+        .areas-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .area-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+
+        .area-card.blocked {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .area-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .area-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .block-toggle {
+            padding: 6px 12px;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            border-radius: 20px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+
+        .block-toggle:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .block-toggle.blocked {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .resource-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .resource-item:hover:not(.blocked):not(.selected) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .resource-item.available {
+            border-color: rgba(34, 197, 94, 0.5);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .resource-item.occupied {
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.1);
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .resource-item.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.3);
+            transform: scale(1.05);
+        }
+
+        .resource-item.blocked {
+            background: rgba(156, 163, 175, 0.2);
+            border-color: rgba(156, 163, 175, 0.5);
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .resource-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .resource-status {
+            font-size: 0.75em;
+            padding: 2px 6px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .booking-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 80px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .booking-mode-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .booking-tab {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .booking-tab.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+        }
+
+        .form-select option {
+            background: #1e293b;
+        }
+
+        .selected-items {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .selected-items-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #3b82f6;
+        }
+
+        .selected-item {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 3px;
+            font-size: 0.85em;
+        }
+
+        .selected-item .remove {
+            margin-left: 5px;
+            cursor: pointer;
+            color: #ef4444;
+        }
+
+        .price-breakdown {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .price-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.2em;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            margin-top: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .event-options {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .alert {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+            display: none;
+        }
+
+        .notification.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-panel {
+                position: static;
+                max-height: none;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🎯 Skill Shot Academy</div>
+        <div class="mode-switcher">
+            <button class="mode-btn active" onclick="setMode('individual')">Individual Booking</button>
+            <button class="mode-btn" onclick="setMode('event')">Event/Tournament</button>
+            <button class="mode-btn" onclick="setMode('training')">Team Training</button>
+        </div>
+        <div class="user-info">
+            <span id="currentDateTime"></span>
+        </div>
+    </div>
+
+    <div class="event-banner" id="eventBanner">
+        🎉 EVENT MODE: You can now block entire areas or the whole facility for tournaments and special events
+    </div>
+
+    <div class="main-container">
+        <div class="dashboard-grid">
+            <div class="facility-panel">
+                <!-- Real-time Statistics -->
+                <div class="stats-bar" id="statsBar">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Available</div>
+                        <div class="stat-value" id="totalAvailable">31</div>
+                        <div class="stat-change positive">↑ 5 from last hour</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Current Occupancy</div>
+                        <div class="stat-value" id="occupancyRate">67%</div>
+                        <div class="stat-change negative">↑ 12% from average</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Today's Revenue</div>
+                        <div class="stat-value" id="todayRevenue">$4,852</div>
+                        <div class="stat-change positive">↑ $420 from yesterday</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Active Bookings</div>
+                        <div class="stat-value" id="activeBookings">47</div>
+                        <div class="stat-change">Next available: 3:15 PM</div>
+                    </div>
+                </div>
+
+                <!-- Facility Areas -->
+                <div class="areas-container" id="areasContainer">
+                    <!-- Areas will be dynamically generated -->
+                </div>
+            </div>
+
+            <!-- Booking Panel -->
+            <div class="booking-panel">
+                <div class="booking-mode-tabs">
+                    <button class="booking-tab active" onclick="setBookingType('standard')">Standard</button>
+                    <button class="booking-tab" onclick="setBookingType('recurring')">Recurring</button>
+                    <button class="booking-tab" onclick="setBookingType('package')">Package</button>
+                </div>
+
+                <div class="selected-items" id="selectedItems" style="display: none;">
+                    <div class="selected-items-header">Selected Resources:</div>
+                    <div id="selectedList"></div>
+                </div>
+
+                <div class="alert" id="eventAlert">
+                    ⚠️ Event Mode: You can block entire areas for exclusive use
+                </div>
+
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-input" id="bookingDate" value="2025-10-23">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Start Time</label>
+                        <input type="time" class="form-input" id="startTime" value="15:00">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Duration</label>
+                        <select class="form-select" id="duration" onchange="updatePricing()">
+                            <option value="30">30 minutes</option>
+                            <option value="60" selected>1 hour</option>
+                            <option value="90">1.5 hours</option>
+                            <option value="120">2 hours</option>
+                            <option value="180">3 hours</option>
+                            <option value="240">4 hours</option>
+                            <option value="480">Full Day (8 hours)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Participants</label>
+                        <input type="number" class="form-input" id="participants" value="1" min="1" max="100" onchange="updatePricing()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Member Type</label>
+                        <select class="form-select" id="memberType" onchange="updatePricing()">
+                            <option value="guest">Guest ($0 discount)</option>
+                            <option value="bronze">Bronze Member (5% off)</option>
+                            <option value="silver">Silver Member (10% off)</option>
+                            <option value="gold" selected>Gold Member (15% off)</option>
+                            <option value="platinum">Platinum Member (20% off)</option>
+                            <option value="elite">Elite Tech (25% off)</option>
+                        </select>
+                    </div>
+
+                    <div class="event-options" id="eventOptions" style="display: none;">
+                        <h4>Event Options:</h4>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="exclusiveAccess" onchange="updatePricing()">
+                            <label for="exclusiveAccess">Exclusive facility access (+50%)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="catering" onchange="updatePricing()">
+                            <label for="catering">Catering service (+$25/person)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="streaming" onchange="updatePricing()">
+                            <label for="streaming">Live streaming setup (+$500)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="referees" onchange="updatePricing()">
+                            <label for="referees">Professional referees (+$200/hour)</label>
+                        </div>
+                    </div>
+
+                    <div class="price-breakdown" id="priceBreakdown">
+                        <div class="price-row">
+                            <span>Base Rate:</span>
+                            <span id="basePrice">$0</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Duration Multiplier:</span>
+                            <span id="durationMultiplier">×1</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Member Discount:</span>
+                            <span id="memberDiscount" style="color: #22c55e;">-$0</span>
+                        </div>
+                        <div class="price-row" id="eventFeesRow" style="display: none;">
+                            <span>Event Fees:</span>
+                            <span id="eventFees">+$0</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Tax (7.375%):</span>
+                            <span id="taxAmount">$0</span>
+                        </div>
+                        <div class="price-total">
+                            <span>Total:</span>
+                            <span id="totalPrice">$0</span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-secondary" onclick="clearSelection()">Clear</button>
+                        <button type="button" class="btn btn-primary" onclick="confirmBooking()">
+                            <span id="bookBtn">Book Now</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <div id="notificationMessage"></div>
+    </div>
+
+    <script>
+        // Global state management
+        const state = {
+            mode: 'individual', // individual, event, training
+            bookingType: 'standard', // standard, recurring, package
+            selectedResources: new Set(),
+            blockedAreas: new Set(),
+            facilityData: {
+                pickleball: {
+                    name: 'Pickleball Courts',
+                    icon: '🎾',
+                    basePrice: 40,
+                    resources: Array.from({length: 8}, (_, i) => ({
+                        id: `pickleball-${i+1}`,
+                        name: `Court ${i+1}`,
+                        status: Math.random() > 0.6 ? 'available' : (Math.random() > 0.5 ? 'occupied' : 'reserved'),
+                        price: 40,
+                        user: Math.random() > 0.6 ? null : `Player ${Math.floor(Math.random() * 100)}`
+                    }))
+                },
+                golf: {
+                    name: 'Golf Simulators',
+                    icon: '⛳',
+                    basePrice: 60,
+                    resources: Array.from({length: 12}, (_, i) => ({
+                        id: `golf-${i+1}`,
+                        name: i >= 8 ? `VIP ${i+1}` : `Bay ${i+1}`,
+                        status: Math.random() > 0.5 ? 'available' : 'occupied',
+                        price: i >= 8 ? 100 : 60,
+                        user: Math.random() > 0.5 ? null : `Golfer ${Math.floor(Math.random() * 100)}`
+                    }))
+                },
+                esports: {
+                    name: 'Esports & VR',
+                    icon: '🎮',
+                    basePrice: 25,
+                    resources: Array.from({length: 28}, (_, i) => ({
+                        id: `esports-${i+1}`,
+                        name: i >= 24 ? `VR ${i-23}` : `PC ${i+1}`,
+                        status: Math.random() > 0.4 ? 'available' : 'occupied',
+                        price: i >= 24 ? 40 : 25,
+                        user: Math.random() > 0.4 ? null : `Gamer${Math.floor(Math.random() * 100)}`
+                    }))
+                },
+                multipurpose: {
+                    name: 'Multi-Sport Pods',
+                    icon: '🏀',
+                    basePrice: 50,
+                    resources: Array.from({length: 4}, (_, i) => ({
+                        id: `multi-${i+1}`,
+                        name: `Pod ${i+1}`,
+                        status: Math.random() > 0.5 ? 'available' : 'occupied',
+                        price: 50,
+                        sport: ['Basketball', 'Soccer', 'Lacrosse', 'Volleyball'][i]
+                    }))
+                },
+                tennis: {
+                    name: 'Tennis/Padel Courts',
+                    icon: '🎾',
+                    basePrice: 70,
+                    resources: Array.from({length: 4}, (_, i) => ({
+                        id: `tennis-${i+1}`,
+                        name: i < 2 ? `Tennis ${i+1}` : `Padel ${i-1}`,
+                        status: Math.random() > 0.6 ? 'available' : 'occupied',
+                        price: 70
+                    }))
+                },
+                hitting: {
+                    name: 'Hitting Tunnels',
+                    icon: '⚾',
+                    basePrice: 45,
+                    resources: Array.from({length: 3}, (_, i) => ({
+                        id: `hitting-${i+1}`,
+                        name: `Tunnel ${i+1}`,
+                        status: Math.random() > 0.5 ? 'available' : 'occupied',
+                        price: 45
+                    }))
+                }
+            },
+            totalRevenue: 4852,
+            bookingsToday: 47
+        };
+
+        // Initialize the application
+        function init() {
+            renderFacilities();
+            updateStatistics();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            setInterval(simulateChanges, 10000); // Simulate changes every 10 seconds
+        }
+
+        // Render all facility areas
+        function renderFacilities() {
+            const container = document.getElementById('areasContainer');
+            container.innerHTML = '';
+
+            Object.entries(state.facilityData).forEach(([key, area]) => {
+                const isBlocked = state.blockedAreas.has(key);
+                const areaDiv = document.createElement('div');
+                areaDiv.className = `area-card ${isBlocked ? 'blocked' : ''}`;
+                
+                const availableCount = area.resources.filter(r => r.status === 'available' && !isBlocked).length;
+                const occupiedCount = area.resources.filter(r => r.status === 'occupied').length;
+                
+                areaDiv.innerHTML = `
+                    <div class="area-header">
+                        <div class="area-title">
+                            <span>${area.icon}</span>
+                            <span>${area.name}</span>
+                            <span style="font-size: 0.8em; opacity: 0.7;">
+                                (${availableCount}/${area.resources.length} available)
+                            </span>
+                        </div>
+                        ${state.mode === 'event' ? 
+                            `<button class="block-toggle ${isBlocked ? 'blocked' : ''}" 
+                                onclick="toggleAreaBlock('${key}')">
+                                ${isBlocked ? 'Unblock Area' : 'Block Entire Area'}
+                            </button>` : ''}
+                    </div>
+                    <div class="resources-grid" id="${key}-resources"></div>
+                `;
+                
+                container.appendChild(areaDiv);
+                renderResources(key, area);
+            });
+        }
+
+        // Render individual resources
+        function renderResources(areaKey, area) {
+            const container = document.getElementById(`${areaKey}-resources`);
+            const isAreaBlocked = state.blockedAreas.has(areaKey);
+            
+            container.innerHTML = area.resources.map(resource => {
+                const isSelected = state.selectedResources.has(resource.id);
+                const isClickable = !isAreaBlocked && (resource.status === 'available' || state.mode === 'event');
+                
+                let statusClass = resource.status;
+                if (isAreaBlocked) statusClass = 'blocked';
+                else if (isSelected) statusClass = 'selected';
+                
+                return `
+                    <div class="resource-item ${statusClass}" 
+                         onclick="${isClickable ? `toggleResource('${resource.id}')` : ''}"
+                         data-resource-id="${resource.id}">
+                        <div class="resource-name">${resource.name}</div>
+                        <div class="resource-status">${
+                            isAreaBlocked ? 'Blocked' : 
+                            (resource.sport || resource.status)
+                        }</div>
+                        ${resource.user && !isAreaBlocked ? 
+                            `<div style="font-size: 0.7em; margin-top: 3px;">${resource.user}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle resource selection
+        function toggleResource(resourceId) {
+            if (state.selectedResources.has(resourceId)) {
+                state.selectedResources.delete(resourceId);
+            } else {
+                if (state.mode === 'individual' && state.selectedResources.size >= 1) {
+                    state.selectedResources.clear();
+                }
+                state.selectedResources.add(resourceId);
+            }
+            
+            updateSelectedDisplay();
+            updatePricing();
+            renderFacilities();
+        }
+
+        // Toggle area blocking for events
+        function toggleAreaBlock(areaKey) {
+            if (state.blockedAreas.has(areaKey)) {
+                state.blockedAreas.delete(areaKey);
+                // Clear selected resources from this area
+                const area = state.facilityData[areaKey];
+                area.resources.forEach(r => state.selectedResources.delete(r.id));
+            } else {
+                state.blockedAreas.add(areaKey);
+                // Add all resources from this area to selection
+                const area = state.facilityData[areaKey];
+                area.resources.forEach(r => state.selectedResources.add(r.id));
+            }
+            
+            updateSelectedDisplay();
+            updatePricing();
+            renderFacilities();
+            updateStatistics();
+        }
+
+        // Update selected resources display
+        function updateSelectedDisplay() {
+            const container = document.getElementById('selectedItems');
+            const list = document.getElementById('selectedList');
+            
+            if (state.selectedResources.size === 0 && state.blockedAreas.size === 0) {
+                container.style.display = 'none';
+                return;
+            }
+            
+            container.style.display = 'block';
+            
+            let html = '';
+            
+            // Show blocked areas
+            state.blockedAreas.forEach(areaKey => {
+                const area = state.facilityData[areaKey];
+                html += `<span class="selected-item">
+                    ${area.icon} ${area.name} (All)
+                    <span class="remove" onclick="toggleAreaBlock('${areaKey}')">×</span>
+                </span>`;
+            });
+            
+            // Show individual selections
+            state.selectedResources.forEach(resourceId => {
+                // Skip if part of blocked area
+                const areaKey = resourceId.split('-')[0];
+                if (state.blockedAreas.has(areaKey)) return;
+                
+                const resource = findResource(resourceId);
+                if (resource) {
+                    html += `<span class="selected-item">
+                        ${resource.name}
+                        <span class="remove" onclick="toggleResource('${resourceId}')">×</span>
+                    </span>`;
+                }
+            });
+            
+            list.innerHTML = html;
+        }
+
+        // Find resource by ID
+        function findResource(resourceId) {
+            for (const [areaKey, area] of Object.entries(state.facilityData)) {
+                const resource = area.resources.find(r => r.id === resourceId);
+                if (resource) return resource;
+            }
+            return null;
+        }
+
+        // Update pricing calculation
+        function updatePricing() {
+            const duration = parseInt(document.getElementById('duration').value);
+            const participants = parseInt(document.getElementById('participants').value);
+            const memberType = document.getElementById('memberType').value;
+            
+            let basePrice = 0;
+            
+            // Calculate base price
+            state.selectedResources.forEach(resourceId => {
+                const resource = findResource(resourceId);
+                if (resource) {
+                    basePrice += resource.price;
+                }
+            });
+            
+            // Duration multiplier
+            const durationMultiplier = duration / 60;
+            
+            // Member discount
+            const discounts = {
+                guest: 0,
+                bronze: 0.05,
+                silver: 0.10,
+                gold: 0.15,
+                platinum: 0.20,
+                elite: 0.25
+            };
+            
+            const subtotal = basePrice * durationMultiplier;
+            const discount = subtotal * discounts[memberType];
+            
+            // Event fees
+            let eventFees = 0;
+            if (state.mode === 'event') {
+                if (document.getElementById('exclusiveAccess')?.checked) {
+                    eventFees += subtotal * 0.5;
+                }
+                if (document.getElementById('catering')?.checked) {
+                    eventFees += 25 * participants;
+                }
+                if (document.getElementById('streaming')?.checked) {
+                    eventFees += 500;
+                }
+                if (document.getElementById('referees')?.checked) {
+                    eventFees += 200 * durationMultiplier;
+                }
+            }
+            
+            const beforeTax = subtotal - discount + eventFees;
+            const tax = beforeTax * 0.07375;
+            const total = beforeTax + tax;
+            
+            // Update display
+            document.getElementById('basePrice').textContent = `$${basePrice.toFixed(2)}`;
+            document.getElementById('durationMultiplier').textContent = `×${durationMultiplier.toFixed(1)}`;
+            document.getElementById('memberDiscount').textContent = `-$${discount.toFixed(2)}`;
+            document.getElementById('taxAmount').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('totalPrice').textContent = `$${total.toFixed(2)}`;
+            
+            if (state.mode === 'event') {
+                document.getElementById('eventFeesRow').style.display = 'flex';
+                document.getElementById('eventFees').textContent = `+$${eventFees.toFixed(2)}`;
+            } else {
+                document.getElementById('eventFeesRow').style.display = 'none';
+            }
+        }
+
+        // Set booking mode
+        function setMode(mode) {
+            state.mode = mode;
+            
+            // Update UI
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide event banner
+            const banner = document.getElementById('eventBanner');
+            const eventOptions = document.getElementById('eventOptions');
+            const eventAlert = document.getElementById('eventAlert');
+            
+            if (mode === 'event') {
+                banner.classList.add('active');
+                eventOptions.style.display = 'block';
+                eventAlert.classList.add('show');
+            } else {
+                banner.classList.remove('active');
+                eventOptions.style.display = 'none';
+                eventAlert.classList.remove('show');
+            }
+            
+            // Clear selections when changing mode
+            clearSelection();
+            renderFacilities();
+        }
+
+        // Set booking type
+        function setBookingType(type) {
+            state.bookingType = type;
+            
+            document.querySelectorAll('.booking-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Clear all selections
+        function clearSelection() {
+            state.selectedResources.clear();
+            state.blockedAreas.clear();
+            updateSelectedDisplay();
+            updatePricing();
+            renderFacilities();
+        }
+
+        // Confirm booking
+        function confirmBooking() {
+            const total = document.getElementById('totalPrice').textContent;
+            const date = document.getElementById('bookingDate').value;
+            const time = document.getElementById('startTime').value;
+            
+            // Simulate API call
+            const btn = document.querySelector('.btn-primary');
+            btn.innerHTML = '<span class="loading"></span> Processing...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                // Update revenue
+                const amount = parseFloat(total.replace('$', ''));
+                state.totalRevenue += amount;
+                state.bookingsToday += 1;
+                
+                // Show notification
+                showNotification(`✓ Booking confirmed! Total: ${total} | Date: ${date} ${time} | Confirmation: #SK${Math.floor(Math.random() * 1000000)}`);
+                
+                // Reset button
+                btn.innerHTML = 'Book Now';
+                btn.disabled = false;
+                
+                // Clear selection
+                clearSelection();
+                
+                // Update statistics
+                updateStatistics();
+                
+                // Simulate status changes
+                state.selectedResources.forEach(resourceId => {
+                    const resource = findResource(resourceId);
+                    if (resource) {
+                        resource.status = 'occupied';
+                        resource.user = 'Your Booking';
+                    }
+                });
+                
+                renderFacilities();
+            }, 1500);
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const messageEl = document.getElementById('notificationMessage');
+            
+            messageEl.innerHTML = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            let totalAvailable = 0;
+            let totalResources = 0;
+            
+            Object.entries(state.facilityData).forEach(([key, area]) => {
+                if (!state.blockedAreas.has(key)) {
+                    totalAvailable += area.resources.filter(r => r.status === 'available').length;
+                }
+                totalResources += area.resources.length;
+            });
+            
+            const occupancyRate = ((totalResources - totalAvailable) / totalResources * 100).toFixed(0);
+            
+            document.getElementById('totalAvailable').textContent = totalAvailable;
+            document.getElementById('occupancyRate').textContent = `${occupancyRate}%`;
+            document.getElementById('todayRevenue').textContent = `$${state.totalRevenue.toLocaleString()}`;
+            document.getElementById('activeBookings').textContent = state.bookingsToday;
+        }
+
+        // Simulate real-time changes
+        function simulateChanges() {
+            // Randomly change some statuses
+            Object.values(state.facilityData).forEach(area => {
+                area.resources.forEach(resource => {
+                    if (Math.random() > 0.9) {
+                        if (resource.status === 'available') {
+                            resource.status = 'occupied';
+                            resource.user = `User${Math.floor(Math.random() * 1000)}`;
+                        } else if (resource.status === 'occupied' && Math.random() > 0.5) {
+                            resource.status = 'available';
+                            resource.user = null;
+                        }
+                    }
+                });
+            });
+            
+            // Update revenue
+            if (Math.random() > 0.7) {
+                state.totalRevenue += Math.floor(Math.random() * 100) + 20;
+                state.bookingsToday += 1;
+            }
+            
+            renderFacilities();
+            updateStatistics();
+        }
+
+        // Update date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            };
+            document.getElementById('currentDateTime').textContent = 
+                now.toLocaleDateString('en-US', options);
+        }
+
+        // Initialize on load
+        window.onload = init;
+    </script>
+</body>
+</html>

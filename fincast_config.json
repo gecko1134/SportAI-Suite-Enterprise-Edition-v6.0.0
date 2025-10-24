@@ -1,0 +1,142 @@
+{
+  "facility_name": "National Sports Dome & Performance Complex",
+  "version": "1.0.0",
+  "currency": "USD",
+  "time_granularity": "monthly",
+  "start_month": "2026-01-01",
+  "horizon_months": 36,
+  "modules": {
+    "utilization": {
+      "prime_hours_per_day": 6,
+      "nonprime_hours_per_day": 8,
+      "days_per_month": 30,
+      "prime_utilization_pct": 0.72,
+      "nonprime_utilization_pct": 0.38,
+      "court_units": 4,
+      "turf_units": 1.5,
+      "turf_split_allowed": true
+    },
+    "pricing": {
+      "court_prime_rate_per_hr": 80.0,
+      "court_nonprime_rate_per_hr": 45.0,
+      "turf_full_prime_rate_per_hr": 450.0,
+      "turf_half_prime_rate_per_hr": 260.0,
+      "turf_full_nonprime_rate_per_hr": 260.0,
+      "turf_half_nonprime_rate_per_hr": 150.0,
+      "dynamic_pricing_enabled": true,
+      "peak_multiplier_cap": 1.25,
+      "floor_multiplier": 0.85
+    },
+    "membership": {
+      "credit_model": true,
+      "avg_credits_sold_per_month": 10000,
+      "avg_credit_price": 1.0,
+      "avg_credit_redeem_rate_pct": 0.85,
+      "prime_credit_multiplier": 1.3,
+      "nonprime_credit_multiplier": 0.8
+    },
+    "sponsorship": {
+      "inventory_value_monthly_base": 35000.0,
+      "pipeline_close_rate": 0.35,
+      "avg_contract_term_months": 36,
+      "ramp_up_months": 3,
+      "prob_weighted": true
+    },
+    "events": {
+      "tournaments_per_quarter": 3,
+      "avg_tournament_gross": 40000.0,
+      "net_margin_pct": 0.35,
+      "seasonality_index": {
+        "01": 0.9,
+        "02": 0.95,
+        "03": 1.1,
+        "04": 1.05,
+        "05": 1.0,
+        "06": 0.85,
+        "07": 0.8,
+        "08": 0.9,
+        "09": 1.0,
+        "10": 1.1,
+        "11": 1.2,
+        "12": 1.3
+      }
+    },
+    "debt": {
+      "loan_amount": 15000000.0,
+      "interest_rate_annual_pct": 7.25,
+      "amort_years": 25,
+      "interest_only_months": 12,
+      "origination_points_pct": 1.0,
+      "dscr_covenant": 1.2
+    },
+    "grants_public": {
+      "expected_total": 2500000.0,
+      "disbursement_months": [
+        3,
+        9,
+        15
+      ],
+      "permitting_or_match_requirements": true
+    },
+    "opex": {
+      "fixed_monthly": 185000.0,
+      "variable_pct_of_revenue": 0.18,
+      "utilities_seasonality_index": {
+        "01": 1.25,
+        "02": 1.2,
+        "03": 1.1,
+        "04": 1.0,
+        "05": 0.95,
+        "06": 0.85,
+        "07": 0.85,
+        "08": 0.9,
+        "09": 0.95,
+        "10": 1.05,
+        "11": 1.15,
+        "12": 1.25
+      }
+    },
+    "capex": {
+      "total_capex": 15000000.0,
+      "draw_schedule_pct_by_month": [
+        0.1,
+        0.12,
+        0.12,
+        0.1,
+        0.08,
+        0.06,
+        0.06,
+        0.06,
+        0.06,
+        0.06,
+        0.09,
+        0.09
+      ],
+      "contingency_pct": 0.07
+    },
+    "risk": {
+      "downside_utilization_shock_pct": -0.12,
+      "upside_pricing_shock_pct": 0.08,
+      "sponsor_slippage_pct": -0.15
+    }
+  },
+  "views": {
+    "board": [
+      "cash_runway",
+      "dscr",
+      "rev_by_stream",
+      "yield_per_sqft",
+      "scenario_compare"
+    ],
+    "ops": [
+      "utilization_heatmap",
+      "unit_mix",
+      "pricing_levers"
+    ],
+    "finance": [
+      "cash_waterfall",
+      "capex_vs_disbursements",
+      "sensitivity_tornado"
+    ]
+  }
+}
