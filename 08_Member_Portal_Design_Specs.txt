@@ -1,0 +1,383 @@
+SKILL SHOT ARENA
+MEMBER PORTAL DESIGN SPECIFICATIONS
+
+═══════════════════════════════════════════════════════════════
+
+DOCUMENT 8: MEMBER PORTAL & ONLINE BOOKING SYSTEM
+Technical Specifications | User Experience Design
+
+═══════════════════════════════════════════════════════════════
+
+SYSTEM ARCHITECTURE
+
+Platform: Web-based (responsive) + Native Mobile Apps (iOS/Android)
+Backend: Node.js + PostgreSQL
+Frontend: React.js
+Payment Processing: Stripe
+Booking Engine: Custom-built on top of CourseReserve API
+Authentication: OAuth 2.0 + JWT tokens
+Hosting: AWS (scalable infrastructure)
+
+═══════════════════════════════════════════════════════════════
+
+USER INTERFACE SCREENS
+
+1. LOGIN/REGISTRATION SCREEN
+
+Elements:
+- Skill Shot Arena logo
+- Email/password fields
+- "Remember me" checkbox
+- "Forgot password?" link
+- Social login options (Google, Facebook, Apple)
+- "New member? Sign up" button
+- Guest checkout option
+
+Security:
+- SSL/TLS encryption
+- reCAPTCHA v3
+- Password strength requirements
+- Two-factor authentication (optional)
+
+═══════════════════════════════════════════════════════════════
+
+2. DASHBOARD (Home Screen)
+
+Header Navigation:
+- Logo (home link)
+- Dashboard | Book Now | My Reservations | Account | Help
+- Notifications bell icon
+- User profile icon
+
+Main Dashboard Sections:
+
+A) Welcome Panel
+"Welcome back, [Name]!"
+- Current membership tier badge
+- Credits remaining: [X] credits ($[Y] value)
+- Expiring soon: [Z] credits expire in [N] days
+- Quick action buttons: Book Now | View Schedule | Invite Friends
+
+B) Upcoming Reservations Widget
+"Your Next Sessions"
+- List of next 3 bookings with date, time, activity, court/bay
+- Quick actions: Modify | Cancel | Add to Calendar
+- "View all reservations" link
+
+C) Activity Feed
+"Recent Activity"
+- Reservation confirmations
+- Credits used/added
+- Tournament registrations
+- League updates
+- Friend invites
+
+D) Recommended For You
+"Try Something New"
+- Suggested activities based on usage patterns
+- Upcoming tournaments/leagues with openings
+- New features or zones
+- Special member promotions
+
+E) Quick Stats
+"Your Stats This Month"
+- Sessions completed: [X]
+- Hours played: [Y]
+- Favorite activity: [Z]
+- Performance data link (if Elite Tech member)
+
+═══════════════════════════════════════════════════════════════
+
+3. BOOKING SCREEN ("Book Now")
+
+Step 1: Select Activity
+Visual grid of options:
+- Pickleball (icon + image)
+- Golf Simulators
+- Esports/Gaming
+- VR Experiences
+- Basketball
+- Multi-Sport Training
+Each shows: Available courts/bays, current wait time
+
+Step 2: Choose Date & Time
+- Calendar view (current month highlighted)
+- Availability indicators (green = available, yellow = limited, red = full)
+- Time slots displayed in 30-minute increments
+- Filter by: Morning | Afternoon | Evening | All Day
+- Duration selector (1hr, 1.5hr, 2hr, custom)
+
+Step 3: Select Specific Court/Bay
+- Visual layout of facility (clickable map)
+- Each court/bay shows: Status, size, features
+- VIP/Premium options highlighted
+- Pricing displayed for members vs. non-members
+
+Step 4: Add-Ons
+- Equipment rental
+- Coaching session
+- Food & beverage pre-order
+- Guest passes (if available)
+- Technology package (if applicable)
+
+Step 5: Review & Confirm
+- Reservation summary
+- Cost breakdown (credits + cash if needed)
+- Cancellation policy reminder
+- Terms & conditions checkbox
+- "Confirm Reservation" button
+
+Confirmation Screen:
+- Confirmation number
+- QR code for check-in
+- Add to calendar button (Google, Apple, Outlook)
+- Email confirmation sent
+- Share reservation option
+
+═══════════════════════════════════════════════════════════════
+
+4. MY RESERVATIONS SCREEN
+
+Tabs:
+- Upcoming | Past | Cancelled
+
+Upcoming Reservations:
+Each reservation card shows:
+- Date, time, duration
+- Activity & court/bay number
+- Countdown timer ("in 2 hours" "tomorrow at 3pm")
+- QR code for check-in
+- Actions: Modify | Cancel | Share | Directions
+
+Filters:
+- View by: List | Calendar
+- Sort by: Date | Activity | Location
+
+Bulk Actions:
+- Cancel multiple
+- Export schedule
+- Print reservations
+
+═══════════════════════════════════════════════════════════════
+
+5. ACCOUNT SCREEN
+
+Sub-Navigation Tabs:
+- Profile | Membership | Credits | Payment | Settings
+
+A) PROFILE TAB
+- Photo upload
+- Personal information (name, email, phone, address)
+- Emergency contact
+- Birthday (for promotions)
+- Athletic interests & skill levels
+- Friend list & referrals
+
+B) MEMBERSHIP TAB
+- Current tier display with badge
+- Benefits list
+- Membership since date
+- Renewal date & billing info
+- Upgrade/downgrade options with comparison
+- Freeze membership option
+- Cancellation link (with retention offers)
+
+C) CREDITS TAB
+- Current balance (large, prominent)
+- Credit history (earned, used, expired)
+- Expiration warnings
+- Purchase additional credits button
+- Credit gift option
+
+D) PAYMENT TAB
+- Primary payment method (card ending in XXXX)
+- Add new payment method
+- Billing history (downloadable invoices)
+- Auto-pay settings
+- Refund requests
+
+E) SETTINGS TAB
+- Email preferences (newsletters, promotions, reservations)
+- SMS notifications
+- Push notifications
+- Calendar integration
+- Privacy settings
+- Linked accounts (Google, Facebook)
+- Password change
+- Two-factor authentication
+- Language preference
+- Time zone
+
+═══════════════════════════════════════════════════════════════
+
+6. PERFORMANCE TRACKING (Elite Tech Members)
+
+Dashboard:
+- Sport selector dropdown
+- Date range filter
+- Share results button
+
+Metrics Displayed (sport-specific):
+
+PICKLEBALL:
+- Games played
+- Win/loss record
+- Average rally length
+- Shot accuracy by type
+- Partner statistics
+
+GOLF:
+- Rounds played
+- Average score
+- Longest drive
+- Accuracy stats
+- Course handicap
+- Swing analysis videos
+
+BASKETBALL:
+- Shot chart heat map
+- Shooting percentage by zone
+- Free throw percentage
+- Shot release time
+- Consistency scores
+
+BASEBALL/SOFTBALL:
+- Exit velocity trends
+- Launch angle
+- Hit types (ground, line, fly)
+- Swing path analysis
+- Video comparisons
+
+Data Export:
+- PDF report generation
+- CSV export for coaches
+- Video clip downloads
+- Share to social media
+
+═══════════════════════════════════════════════════════════════
+
+MOBILE APP FEATURES
+
+Native App Advantages:
+- Push notifications for reservation reminders
+- Offline access to schedules
+- Mobile check-in with QR codes
+- Location services for directions
+- Camera for profile photos
+- Faster performance
+
+App-Only Features:
+- "Check-in" button (geo-fenced to facility)
+- Mobile wallet integration
+- Quick booking shortcuts
+- Siri/Google Assistant integration
+
+═══════════════════════════════════════════════════════════════
+
+BOOKING RULES ENGINE
+
+Priority Booking:
+- Bronze: 48 hours advance
+- Silver: 48 hours advance
+- Gold: 7 days advance
+- Platinum: 14 days advance
+
+Booking Limits:
+- Maximum bookings per member: 3 concurrent
+- Maximum hours per week: 10 hours (adjustable)
+- No-show penalties: 3 no-shows = 30-day booking restriction
+
+Dynamic Pricing:
+- Peak hours (Mon-Fri 5-9pm, Sat-Sun all day): +25%
+- Off-peak (Mon-Fri 11am-5pm): Standard
+- Late night (after 9pm): -15%
+
+Credit System:
+- 1 credit = $10 value
+- Credits auto-apply at checkout
+- Remaining balance charged to payment method
+- Credits expire 60 days from cancellation
+
+Cancellation Policy:
+- 48+ hours: Full credit refund
+- 24-48 hours: 50% credit refund
+- < 24 hours: No refund
+- No-show: No refund + penalty
+
+═══════════════════════════════════════════════════════════════
+
+ADMIN DASHBOARD (Staff Portal)
+
+Features:
+- Real-time facility view (occupancy map)
+- Manual booking creation
+- Member search & management
+- Incident reporting
+- Equipment status tracking
+- Revenue reports
+- Staff scheduling
+- Inventory management
+- Maintenance requests
+
+═══════════════════════════════════════════════════════════════
+
+TECHNICAL REQUIREMENTS
+
+Performance:
+- Page load time: < 2 seconds
+- Booking completion: < 30 seconds
+- 99.9% uptime SLA
+
+Security:
+- PCI DSS compliant payment processing
+- GDPR/CCPA privacy compliance
+- Regular security audits
+- Data encryption at rest and in transit
+- Regular backups (daily)
+
+Integrations:
+- CourseReserve (booking engine)
+- Stripe (payments)
+- Mailchimp (email marketing)
+- Google Calendar/Apple Calendar
+- Quickbooks (accounting)
+- Social media APIs
+
+Browser Support:
+- Chrome (latest 2 versions)
+- Safari (latest 2 versions)
+- Firefox (latest 2 versions)
+- Edge (latest 2 versions)
+- Mobile: iOS 14+, Android 10+
+
+═══════════════════════════════════════════════════════════════
+
+DEVELOPMENT ROADMAP
+
+Phase 1 (Pre-Launch):
+- Core booking functionality
+- Member registration
+- Payment processing
+- Basic mobile responsiveness
+
+Phase 2 (Month 1-3):
+- Mobile app launch
+- Performance tracking
+- Social features
+- Advanced filters
+
+Phase 3 (Month 4-6):
+- AI recommendations
+- Dynamic pricing optimization
+- Loyalty program integration
+- Enhanced analytics
+
+Phase 4 (Month 7-12):
+- API for third-party integrations
+- Tournament bracket generation
+- Team management features
+- Advanced reporting
+
+═══════════════════════════════════════════════════════════════
+END DOCUMENT 8
+═══════════════════════════════════════════════════════════════
