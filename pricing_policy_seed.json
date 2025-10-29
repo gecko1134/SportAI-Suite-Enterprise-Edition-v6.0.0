@@ -1,0 +1,16 @@
+{
+  "personalization_allowed": false,
+  "segments": [
+    "time_band",
+    "sport",
+    "util_band",
+    "lead_days",
+    "party_size",
+    "member_tier"
+  ],
+  "price_floor_pct_of_ref": 0.7,
+  "price_ceiling_pct_of_ref": 1.45,
+  "day_change_limit_pct": 15,
+  "event_proximity_hours_lock": 24,
+  "explain_why_enabled": true
+}

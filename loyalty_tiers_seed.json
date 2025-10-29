@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Member",
+    "points_min": 0,
+    "priority": 5,
+    "perks": [
+      "Standard booking"
+    ]
+  },
+  {
+    "name": "Pro",
+    "points_min": 500,
+    "priority": 4,
+    "perks": [
+      "+24h early booking",
+      "5% NXS Bonus earn"
+    ]
+  },
+  {
+    "name": "Gold",
+    "points_min": 2000,
+    "priority": 3,
+    "perks": [
+      "+48h early booking",
+      "8% Bonus",
+      "Retail partner perks"
+    ]
+  },
+  {
+    "name": "Platinum",
+    "points_min": 6000,
+    "priority": 2,
+    "perks": [
+      "+72h early booking",
+      "12% Bonus",
+      "Drop access"
+    ]
+  },
+  {
+    "name": "Black",
+    "points_min": 15000,
+    "priority": 1,
+    "perks": [
+      "Invite-only: concierge, VIP lanes, suite nights"
+    ]
+  }
+]
