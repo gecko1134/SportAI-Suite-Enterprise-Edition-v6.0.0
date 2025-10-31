@@ -1,0 +1,6 @@
+asset,setup_type,buffer_min,labor_role,labor_cost_per_hour,open_hour,close_hour,capacity_units
+FullTurf-1,turf_split,10,floor_ops,22.0,6,24,2
+HalfTurf-A,turf_half,10,floor_ops,22.0,6,24,1
+HalfTurf-B,turf_half,10,floor_ops,22.0,6,24,1
+Court-1,court_single,10,court_ops,18.0,6,24,1
+Court-2,court_single,10,court_ops,18.0,6,24,1

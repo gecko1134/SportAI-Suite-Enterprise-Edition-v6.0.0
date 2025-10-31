@@ -1,0 +1,10 @@
+booking_id,asset,asset_parent,start,end,sport,party_size,price_cash,price_credits,channel,status,member_tier,slot_length_min
+B001,HalfTurf-A,FullTurf-1,2025-10-27T09:00:00,2025-10-27T10:00:00,soccer,18,180,0,direct,booked,Elite,60
+B002,HalfTurf-A,FullTurf-1,2025-10-27T10:10:00,2025-10-27T11:10:00,soccer,16,170,0,direct,booked,Elite,60
+B003,HalfTurf-A,FullTurf-1,2025-10-27T12:00:00,2025-10-27T13:00:00,lacrosse,20,210,0,league,booked,Plus,60
+B004,HalfTurf-B,FullTurf-1,2025-10-27T09:05:00,2025-10-27T10:05:00,soccer,18,175,0,direct,booked,Elite,60
+B005,HalfTurf-B,FullTurf-1,2025-10-27T11:00:00,2025-10-27T12:00:00,soccer,14,165,0,partner,booked,Standard,60
+B006,Court-1,Court-Cluster,2025-10-27T09:00:00,2025-10-27T10:00:00,basketball,10,65,0,online,booked,Standard,60
+B007,Court-1,Court-Cluster,2025-10-27T10:20:00,2025-10-27T11:20:00,pickleball,4,40,0,online,booked,Standard,60
+B008,Court-2,Court-Cluster,2025-10-27T10:00:00,2025-10-27T11:00:00,volleyball,12,55,0,online,booked,Plus,60
+B009,Court-2,Court-Cluster,2025-10-27T11:30:00,2025-10-27T12:30:00,volleyball,12,0,0,online,cancelled,Plus,60

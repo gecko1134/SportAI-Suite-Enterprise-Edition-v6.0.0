@@ -1,0 +1,4 @@
+member_id,tier,credits_balance,credit_value_usd,nudge_pack_to_benefit_threshold
+M001,Standard,50,1.0,100
+M002,Plus,120,1.0,150
+M003,Elite,300,1.2,300

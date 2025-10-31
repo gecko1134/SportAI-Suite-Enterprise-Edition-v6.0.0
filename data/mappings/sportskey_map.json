@@ -1,0 +1,48 @@
+{
+  "timestamp_candidates": [
+    "Start",
+    "Start Time",
+    "StartDate",
+    "Start Date",
+    "From",
+    "Date",
+    "Start Datetime"
+  ],
+  "endtime_candidates": [
+    "End",
+    "End Time",
+    "EndDate",
+    "End Date",
+    "To",
+    "Finish",
+    "End Datetime"
+  ],
+  "zone_candidates": [
+    "Resource",
+    "Venue",
+    "Facility",
+    "Pitch",
+    "Court",
+    "Zone",
+    "Field"
+  ],
+  "duration_minutes_candidates": [
+    "Duration",
+    "Minutes",
+    "Duration (mins)",
+    "Duration Minutes"
+  ],
+  "checkins_candidates": [
+    "Checkins",
+    "Check-ins",
+    "Attended",
+    "Attendance"
+  ],
+  "est_walkins_default": 0,
+  "booked_slots_per_row_default": 1,
+  "timezone_default": "America/Chicago",
+  "zone_normalize": {
+    "upper": true,
+    "spaces_to_underscore": true
+  }
+}

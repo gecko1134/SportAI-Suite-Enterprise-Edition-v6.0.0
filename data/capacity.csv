@@ -1,0 +1,5 @@
+zone_id,zone_name,layout,setup_minutes,clean_minutes,max_slots_per_hour
+TURF_A,Turf A (Full),full_turf,10,10,4
+TURF_B,Turf B (Half),half_turf,8,8,2
+COURT_1,Court 1,court,5,5,2
+SIM_1,Golf Sim 1,sim_bay,2,2,1

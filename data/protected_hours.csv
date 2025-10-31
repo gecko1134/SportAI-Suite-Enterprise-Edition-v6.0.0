@@ -1,0 +1,10 @@
+zone_id,dow,start_time,end_time,applies_to,action_block
+ALL,0,15:00,21:00,"youth,nonprofit","cleaning_window,open_overflow,staff_reduce"
+ALL,1,15:00,21:00,"youth,nonprofit","cleaning_window,open_overflow,staff_reduce"
+ALL,2,15:00,21:00,"youth,nonprofit","cleaning_window,open_overflow,staff_reduce"
+ALL,3,15:00,21:00,"youth,nonprofit","cleaning_window,open_overflow,staff_reduce"
+ALL,4,15:00,21:00,"youth,nonprofit","cleaning_window,open_overflow,staff_reduce"
+ALL,5,09:00,13:00,"youth,nonprofit","cleaning_window,staff_reduce"
+ALL,6,09:00,13:00,"youth,nonprofit","cleaning_window,staff_reduce"
+COURT_1,0,19:00,23:00,all,open_overflow
+COURT_1,2,19:00,23:00,all,open_overflow
