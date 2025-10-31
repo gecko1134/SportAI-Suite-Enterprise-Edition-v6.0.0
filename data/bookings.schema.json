@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Bookings CSV Schema",
+  "type": "object",
+  "properties": {
+    "asset": {
+      "type": "string"
+    },
+    "start": {
+      "type": "string",
+      "description": "Datetime ISO or %Y-%m-%d %H:%M"
+    },
+    "end": {
+      "type": "string",
+      "description": "Datetime ISO or %Y-%m-%d %H:%M"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "booked",
+        "confirmed",
+        "cancelled",
+        "canceled",
+        "no-show",
+        "no show",
+        "noshow"
+      ]
+    }
+  },
+  "required": [
+    "asset",
+    "start",
+    "end"
+  ],
+  "additionalProperties": true
+}

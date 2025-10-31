@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ops",
+  "type": "object",
+  "properties": {
+    "asset": {
+      "type": "string"
+    },
+    "setup_type": {
+      "type": "string"
+    },
+    "buffer_min": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "labor_role": {
+      "type": "string"
+    },
+    "labor_cost_per_hour": {
+      "type": "number",
+      "minimum": 0
+    },
+    "open_hour": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 24
+    },
+    "close_hour": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 24
+    },
+    "capacity_units": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "asset",
+    "buffer_min",
+    "open_hour",
+    "close_hour",
+    "capacity_units"
+  ]
+}
